@@ -1,11 +1,24 @@
 from flask import Flask, request, jsonify
 import hmac
 import hashlib
+import requests
 
 app = Flask(__name__)
 
 # 設置你的 Webhook 密鑰 (從 Cyberbiz 後台取得)
 WEBHOOK_SECRET = b'urlDkfgyJpKKUhROeyvXvVU-ObLzLmk5XUDbTXZMi-8'
+
+def send_line_notify(message):
+    url = 'https://notify-api.line.me/api/notify'
+    token = 'KaRNNWyrwulLuZ0ioKvDOXGo7ybGRjsZa9Nql2rHTug'   #個人
+    headers = {
+        'Authorization': 'Bearer ' + token
+    }
+    data = {
+        'message': message
+    }
+    response = requests.post(url, headers=headers, data=data)
+    return response
  
 
 # 驗證簽名的函數 
@@ -44,6 +57,8 @@ def handle_order_webhook():
         print(f"總金額：{total_price}")
         for item in line_items:
             print(f"  商品名稱: {item.get('title', 'N/A')}，數量: {item.get('quantity', 0)}")
+            response_message += f"\n{111}"
+            response = send_line_notify(response_message)
 
         # 回應成功
         return jsonify({'status': 'success'}), 200
