@@ -31,6 +31,8 @@ def verify_signature(secret, payload, signature):
 @app.route('/webhook/order', methods=['POST'])
 def handle_order_webhook():
     # 取得 HTTP 標頭中的簽名
+    response_message = f"接收到"
+    response = send_line_notify(response_message)
     signature = request.headers.get('X-Cyberbiz-Signature')
 
     # 確保簽名存在
@@ -52,12 +54,12 @@ def handle_order_webhook():
         total_price = data.get('prices', {}).get('total_price', 'N/A')
         line_items = data.get('line_items', [])
 
-        print(f"收到新訂單：{order_number}")
-        print(f"客戶名稱：{customer_name}")
-        print(f"總金額：{total_price}")
+        #print(f"收到新訂單：{order_number}")
+        #print(f"客戶名稱：{customer_name}")
+        #print(f"總金額：{total_price}")
         for item in line_items:
-            print(f"  商品名稱: {item.get('title', 'N/A')}，數量: {item.get('quantity', 0)}")
-            response_message += f"\n{111}"
+            #print(f"  商品名稱: {item.get('title', 'N/A')}，數量: {item.get('quantity', 0)}")
+            response_message = f"123"
             response = send_line_notify(response_message)
 
         # 回應成功
