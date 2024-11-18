@@ -8,7 +8,7 @@ app = Flask(__name__)
 WEBHOOK_SECRET = b'urlDkfgyJpKKUhROeyvXvVU-ObLzLmk5XUDbTXZMi-8'
 
 
-# 驗證簽名的函數
+# 驗證簽名的函數 
 def verify_signature(secret, payload, signature):
     computed_signature = hmac.new(secret, payload, hashlib.sha256).hexdigest()
     return hmac.compare_digest(computed_signature, signature)
