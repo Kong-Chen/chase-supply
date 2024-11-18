@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import hmac
 import hashlib
 import requests
+import json
 
 app = Flask(__name__)
 
@@ -31,10 +32,14 @@ def verify_signature(secret, payload, signature):
 @app.route('/webhook/order', methods=['POST'])
 def handle_order_webhook():
     # 取得 HTTP 標頭中的簽名
-    response_message = f"接收到"
-    response = send_line_notify(response_message)
+    data = request.json  # 解析 JSON 請求
+    summary = f"收到資料:\n{json.dumps(data, indent=2)}"
+    send_line_notify(summary[:1000])  # 只傳前 1000 個字避免超長
+    #response_message = f"接收到"
+    #response = send_line_notify(response_message)
+    
+    
     signature = request.headers.get('X-Cyberbiz-Signature')
-
     # 確保簽名存在
     if not signature:
         return jsonify({'error': 'Missing signature'}), 400
