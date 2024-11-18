@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # 設置你的 Webhook 密鑰 (從 Cyberbiz 後台取得)
 WEBHOOK_SECRET = b'urlDkfgyJpKKUhROeyvXvVU-ObLzLmk5XUDbTXZMi-8'
-
+ 
 
 # 驗證簽名的函數 
 def verify_signature(secret, payload, signature):
