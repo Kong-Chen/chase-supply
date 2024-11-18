@@ -33,8 +33,12 @@ def verify_signature(secret, payload, signature):
 def handle_order_webhook():
     # 取得 HTTP 標頭中的簽名
     data = request.json  # 解析 JSON 請求
-    summary = f"收到資料:\n{json.dumps(data, indent=2)}"
-    send_line_notify(summary[:1000])  # 只傳前 1000 個字避免超長
+    order_number = data.get('order_number', 'N/A')
+    customer_name = data.get('customer', {}).get('name', 'N/A')
+    total_price = data.get('prices', {}).get('total_price', 'N/A')
+    line_items = data.get('line_items', [])
+    summary = f"收到資料:\n{order_number}-{customer_name}-{total_price}"
+    send_line_notify(summary)  # 只傳前 1000 個字避免超長
     #response_message = f"接收到"
     #response = send_line_notify(response_message)
     
