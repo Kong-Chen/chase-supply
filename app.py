@@ -38,19 +38,21 @@ def handle_order_webhook(scenario):
     # 取得 HTTP 標頭中的簽名
     try:
         data = request.json  # 解析 JSON 請求
-        order_number = data.get('order_number', 'N/A')
+        order_name = data.get('order_name', 'N/A')
         customer_name = data.get('customer', {}).get('name', 'N/A')
         total_price = data.get('prices', {}).get('total_price', 'N/A')
         line_items = data.get('line_items', [])
-        for item in line_items:
-            title = item.get('title', 'N/A')  # 如果沒有 'title'，預設為 'N/A'
-            print(f"商品名稱: {title}")
+        
         output = f"""
-        訂單單號：{order_number}
+        訂單單號：{order_name}
         客戶姓名：{customer_name}
         訂單金額：{total_price}
         購買品項："""
-               
+        
+        for idx, item in enumerate(line_items, start=1):
+            title = item.get('title', 'N/A')  # 如果沒有 'title'，預設為 'N/A'
+            output += f"\n{idx}. {title}"
+        
         if scenario == "close":
             send_line_notify(output)
     
