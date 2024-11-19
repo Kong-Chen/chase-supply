@@ -33,46 +33,21 @@ def callback():
     return "OK"
 
 # Webhook 接收端點
-@app.route('/webhook/order', methods=['POST'])
-def handle_order_webhook():
+@app.route('/webhook/order/<scenario>', methods=['POST'])
+def handle_order_webhook(scenario):
     # 取得 HTTP 標頭中的簽名
-    data = request.json  # 解析 JSON 請求
-    order_number = data.get('order_number', 'N/A')
-    customer_name = data.get('customer', {}).get('name', 'N/A')
-    total_price = data.get('prices', {}).get('total_price', 'N/A')
-    line_items = data.get('line_items', [])
-    summary = f"收到資料:\n{order_number}-{customer_name}-{total_price}"
-    send_line_notify(summary) 
-    
-    signature = request.headers.get('X-Cyberbiz-Signature')
-    # 確保簽名存在
-    if not signature:
-        return jsonify({'error': 'Missing signature'}), 400
-
-    # 獲取請求的原始資料
-    payload = request.get_data()
-
-    # 驗證簽名
-    if not verify_signature(WEBHOOK_SECRET, payload, signature):
-        return jsonify({'error': 'Invalid signature'}), 403
-
-    # 處理 Webhook 資料
     try:
         data = request.json  # 解析 JSON 請求
         order_number = data.get('order_number', 'N/A')
         customer_name = data.get('customer', {}).get('name', 'N/A')
         total_price = data.get('prices', {}).get('total_price', 'N/A')
         line_items = data.get('line_items', [])
-
-        #print(f"收到新訂單：{order_number}")
-        #print(f"客戶名稱：{customer_name}")
-        #print(f"總金額：{total_price}")
-        for item in line_items:
-            #print(f"  商品名稱: {item.get('title', 'N/A')}，數量: {item.get('quantity', 0)}")
-            response_message = f"123"
-            response = send_line_notify(response_message)
-
-        # 回應成功
+        #for item in line_items:
+               
+        if scenario == "close":
+            summary = f"關閉訂單:\n{order_number}-{customer_name}-{total_price}"
+            send_line_notify(summary)
+    
         return jsonify({'status': 'success'}), 200
 
     except Exception as e:
