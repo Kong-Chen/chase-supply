@@ -42,11 +42,17 @@ def handle_order_webhook(scenario):
         customer_name = data.get('customer', {}).get('name', 'N/A')
         total_price = data.get('prices', {}).get('total_price', 'N/A')
         line_items = data.get('line_items', [])
-        #for item in line_items:
+        for item in line_items:
+            title = item.get('title', 'N/A')  # 如果沒有 'title'，預設為 'N/A'
+            print(f"商品名稱: {title}")
+        output = f"""
+        訂單單號：{order_number}
+        客戶姓名：{customer_name}
+        訂單金額：{total_price}
+        購買品項："""
                
         if scenario == "close":
-            summary = f"關閉訂單:\n{order_number}-{customer_name}-{total_price}"
-            send_line_notify(summary)
+            send_line_notify(output)
     
         return jsonify({'status': 'success'}), 200
 
