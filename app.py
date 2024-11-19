@@ -49,9 +49,14 @@ def handle_order_webhook(scenario):
             title = item.get('title', 'N/A')  # 如果沒有 'title'，預設為 'N/A'
             output += f"\n{idx}.{title}"
         
+        if scenario == "create":
+           output = f"\n訂單狀態：新增" + output 
+        
         if scenario == "close":
-            send_line_notify(output)
-    
+           output = f"\n訂單狀態：結案" + output 
+
+        send_line_notify(output)
+        
         return jsonify({'status': 'success'}), 200
 
     except Exception as e:
