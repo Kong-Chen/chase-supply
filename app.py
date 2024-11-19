@@ -48,7 +48,8 @@ def handle_order_webhook(scenario):
         
         for idx, item in enumerate(line_items, start=1):
             title = item.get('title', 'N/A')  # 如果沒有 'title'，預設為 'N/A'
-            output += f"\n{idx}.{title}"
+            quantity = item.get('quantity', 'N/A')
+            output += f"\n{idx}.{title}*{idx}.{quantity}件"
         
         if scenario == "create":
            output = f"\n訂單狀態：新增" + output 
