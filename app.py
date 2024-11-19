@@ -43,15 +43,11 @@ def handle_order_webhook(scenario):
         total_price = data.get('prices', {}).get('total_price', 'N/A')
         line_items = data.get('line_items', [])
         
-        output = f"""
-        訂單單號：{order_name}
-        客戶姓名：{customer_name}
-        訂單金額：{total_price}
-        購買品項："""
+        output = f"""訂單單號：{order_name}客戶姓名：{customer_name}訂單金額：{total_price}購買品項："""
         
         for idx, item in enumerate(line_items, start=1):
             title = item.get('title', 'N/A')  # 如果沒有 'title'，預設為 'N/A'
-            output += f"\n{idx}. {title}"
+            output += f"\n{idx}.{title}"
         
         if scenario == "close":
             send_line_notify(output)
