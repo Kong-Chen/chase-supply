@@ -28,10 +28,6 @@ def verify_signature(secret, payload, signature):
     return hmac.compare_digest(computed_signature, signature)
 
 
-@app.route("/callback", methods=['GET'])
-def callback():
-    print('200')
-
 # Webhook 接收端點
 @app.route('/webhook/order', methods=['POST'])
 def handle_order_webhook():
@@ -42,7 +38,10 @@ def handle_order_webhook():
     total_price = data.get('prices', {}).get('total_price', 'N/A')
     line_items = data.get('line_items', [])
     summary = f"收到資料:\n{order_number}-{customer_name}-{total_price}"
-    send_line_notify(summary) 
+    send_line_notify(summary)  # 只傳前 1000 個字避免超長
+    #response_message = f"接收到"
+    #response = send_line_notify(response_message)
+    
     
     signature = request.headers.get('X-Cyberbiz-Signature')
     # 確保簽名存在
