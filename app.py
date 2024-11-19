@@ -11,7 +11,8 @@ WEBHOOK_SECRET = b'urlDkfgyJpKKUhROeyvXvVU-ObLzLmk5XUDbTXZMi-8'
 
 def send_line_notify(message):
     url = 'https://notify-api.line.me/api/notify'
-    token = 'KaRNNWyrwulLuZ0ioKvDOXGo7ybGRjsZa9Nql2rHTug'   #個人
+    #token = 'KaRNNWyrwulLuZ0ioKvDOXGo7ybGRjsZa9Nql2rHTug'   #個人
+    token ='Y15svh94pm2DGvMvdK1NWgMJDHQwOxrxx6SGEgGcFlB' #電商
     headers = {
         'Authorization': 'Bearer ' + token
     }
