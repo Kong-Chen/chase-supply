@@ -30,7 +30,7 @@ def verify_signature(secret, payload, signature):
 
 @app.route("/callback", methods=['GET'])
 def callback():
-    print('200')
+    return "OK"
 
 # Webhook 接收端點
 @app.route('/webhook/order', methods=['POST'])
