@@ -41,6 +41,12 @@ def callback():
     if request.method == 'GET':
         return "OK"
     elif request.method == 'POST':
+        group_id = 'C8ecab467e269cb16f4b9734fad9aa03f' 
+        output='pusht成功'
+        try:
+            line_bot_api.push_message(group_id, output)
+        except Exception as e:
+            print(f"发送失败: {e}")
         return "OK"
 
 
