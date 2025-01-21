@@ -41,12 +41,12 @@ def callback():
     if request.method == 'GET':
         return "OK"
     elif request.method == 'POST':
-        group_id = 'C8ecab467e269cb16f4b9734fad9aa03f' 
-        output = TextSendMessage(text="PUSH成功")  # 要发送的纯文字消息
-        try:
-            line_bot_api.push_message(group_id, output)
-        except Exception as e:
-            print(f"发送失败: {e}")
+        # group_id = 'C8ecab467e269cb16f4b9734fad9aa03f' 
+        # output = TextSendMessage(text="PUSH成功")  # 要发送的纯文字消息
+        # try:
+        #    line_bot_api.push_message(group_id, output)
+        # except Exception as e:
+        #     print(f"发送失败: {e}")
         return "OK"
 
 
@@ -92,7 +92,8 @@ def handle_order_webhook(scenario):
 
         group_id = 'C8ecab467e269cb16f4b9734fad9aa03f' 
         try:
-            line_bot_api.push_message(group_id, output)
+            output_new = TextSendMessage(text=output)
+            line_bot_api.push_message(group_id, output_new)
         except Exception as e:
             print(f"发送失败: {e}")
         
