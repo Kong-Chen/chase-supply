@@ -42,7 +42,7 @@ def callback():
         return "OK"
     elif request.method == 'POST':
         group_id = 'C8ecab467e269cb16f4b9734fad9aa03f' 
-        output='pusht成功'
+        output = TextSendMessage(text="PUSH成功")  # 要发送的纯文字消息
         try:
             line_bot_api.push_message(group_id, output)
         except Exception as e:
