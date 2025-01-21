@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 import hmac
 import hashlib
 import requests
@@ -41,14 +41,8 @@ def callback():
     if request.method == 'GET':
         return "OK"
     elif request.method == 'POST':
-        body = request.get_data(as_text=True)
-        signature = request.headers['X-Line-Signature']
-        try:
-            # 驗證簽章
-            handler.handle(body, signature)
-        except InvalidSignatureError:
-            abort(400)
         return "OK"
+
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -88,6 +82,14 @@ def handle_order_webhook(scenario):
            output = f"\n訂單狀態：結案" + output 
 
         send_line_notify(output)
+        
+
+        group_id = 'C8ecab467e269cb16f4b9734fad9aa03f' 
+        try:
+            line_bot_api.push_message(group_id, output)
+        except Exception as e:
+            print(f"发送失败: {e}")
+        
         
         return jsonify({'status': 'success'}), 200
 
