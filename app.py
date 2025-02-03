@@ -74,7 +74,7 @@ def handle_order_webhook(scenario):
         line_items = data.get('line_items', [])
         shipping_name = data.get('shipping_name', 'N/A')
         
-        output = f"""\n訂單單號：{order_name}\n客戶姓名：{customer_name}\n出貨方式：{shipping_name}\n訂單金額：{total_price}\n購買品項："""
+        output = f"""訂單單號：{order_name}\n客戶姓名：{customer_name}\n出貨方式：{shipping_name}\n訂單金額：{total_price}\n購買品項："""
         
         for idx, item in enumerate(line_items, start=1):
             title = item.get('title', 'N/A')  # 如果沒有 'title'，預設為 'N/A'
@@ -87,8 +87,7 @@ def handle_order_webhook(scenario):
         if scenario == "close":
            output = f"\n訂單狀態：結案" + output 
 
-        send_line_notify(output)
-        
+        # send_line_notify(output)
 
         group_id = 'C8ecab467e269cb16f4b9734fad9aa03f' 
         try:
