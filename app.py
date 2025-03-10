@@ -73,9 +73,11 @@ def handle_order_webhook(scenario):
         total_price = data.get('prices', {}).get('total_price', 'N/A')
         line_items = data.get('line_items', [])
         shipping_name = data.get('shipping_name', 'N/A')
-        
-        output = f"""訂單單號：{order_name}\n客戶姓名：{customer_name}\n出貨方式：{shipping_name}\n訂單金額：{total_price}\n購買品項："""
-        
+        fulfillments = data.get('fulfillments', [])
+        output = f"""\n訂單單號：{order_name}\n客戶姓名：{customer_name}\n出貨方式：{shipping_name}\n訂單金額：{total_price}\n購買品項："""
+        for fulfillment in fulfillments:
+            tracking_number = fulfillment.get('tracking_number', 'N/A')
+            output +=f"\n物流單號:{tracking_number}"
         for idx, item in enumerate(line_items, start=1):
             title = item.get('title', 'N/A')  # 如果沒有 'title'，預設為 'N/A'
             quantity = item.get('quantity', 'N/A')

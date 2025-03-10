@@ -63,9 +63,12 @@ try:
         orderno = order.get('order_number',{})
         customer_name = order.get('customer', {}).get('name', 'N/A')
         prices = order.get('prices', {}).get('total_price', 'N/A')
-        line_items = order.get('line_items', [])
-         
+        line_items = order.get('line_items', [])    
         print(f"{orderno} - {date} - {customer_name} - {prices}")
+        fulfillments = order.get('fulfillments', [])
+        for fulfillment in fulfillments:
+            tracking_number = fulfillment.get('tracking_number', 'N/A')
+            print(f"  📦 物流單號: {tracking_number}")
         for item in line_items:
             title = item.get('title', 'N/A')
             print(f"  商品名稱: {title}")
